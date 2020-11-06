@@ -24,7 +24,7 @@ impl Component for Model {
     fn update(&mut self, msg: Self::Message) -> ShouldRender {
         match msg {
             Msg::AddOne => self.value += 1,
-            Msg::RemoveOne => self.value -= 1,
+            Msg::RemoveOne => self.value -= 2,
             Msg::Reset => self.value = 0,
         }
         true

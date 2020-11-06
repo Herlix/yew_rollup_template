@@ -4,6 +4,9 @@ import {
 import copy from 'rollup-plugin-copy'
 import rust from "@wasm-tool/rollup-plugin-rust";
 import serve from 'rollup-plugin-serve';
+import del from 'rollup-plugin-delete'
+
+const DIR = './__dist__';
 
 export default {
     watch: {
@@ -13,7 +16,7 @@ export default {
     // Since a yew app is a Rust app, there's not much work in JS
     // To make is less complex we bundle it by default
     output: {
-        file: '__dist__/bundle.min.js',
+        file: DIR + '/bundle.min.js',
         format: 'iife',
         name: 'main',
         plugins: [terser()]
@@ -23,14 +26,17 @@ export default {
         copy({
             targets: [{
                 src: 'static/*',
-                dest: '__dist__'
+                dest: DIR
             }]
         }),
         serve({
             open: false,
-            contentBase: '__dist__',
+            contentBase: DIR,
             host: 'localhost',
             port: 8080,
+        }),
+        del({
+            targets: DIR + '/assets/*.wasm'
         })
     ]
 };
