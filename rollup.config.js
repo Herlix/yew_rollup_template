@@ -5,6 +5,7 @@ import copy from 'rollup-plugin-copy'
 import rust from "@wasm-tool/rollup-plugin-rust";
 import serve from 'rollup-plugin-serve';
 import del from 'rollup-plugin-delete'
+import postcss from 'rollup-plugin-postcss'
 
 const DIR = './__dist__';
 
@@ -22,6 +23,11 @@ export default {
         plugins: [terser()]
     },
     plugins: [
+        postcss({
+            sourceMap: true,
+            extract: true,
+            minimize: true
+        }),
         rust(),
         copy({
             targets: [{
@@ -33,7 +39,7 @@ export default {
             open: false,
             contentBase: DIR,
             host: 'localhost',
-            port: 8080,
+            port: 8081,
         }),
         del({
             targets: DIR + '/assets/*.wasm'
